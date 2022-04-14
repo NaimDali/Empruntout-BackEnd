@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CategoriesService } from 'src/categories/categories.service';
 import { User } from 'src/users/entities/user.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -15,10 +16,12 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
+    private categoryService: CategoriesService,
   ) {}
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    //Increment number of products corresponding to given category automatically.
-    return await this.productRepository.create(createProductDto);
+    //Increment number of products corresponding to given category automatically using event handlers.
+    const product = this.productRepository.create(createProductDto);
+    return await this.productRepository.save(product);
   }
   async findProductsByUser(user: User): Promise<Product[]> {
     return await this.productRepository.find({ owner: user });

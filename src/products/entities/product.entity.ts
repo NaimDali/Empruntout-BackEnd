@@ -1,5 +1,14 @@
+import { type } from 'os';
+import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Product {
@@ -10,11 +19,12 @@ export class Product {
   //Add categories for easier search.
 
   @ManyToOne((type) => User, (user) => user.products, {
-    cascade: ['insert', 'update'],
-    nullable: false,
-    eager: true,
+    nullable: true, //change this to false in prod
   })
   owner: User;
+  @ManyToMany(() => Category)
+  @JoinTable()
+  categories: Category[];
   @Column({ default: true })
   availability: boolean;
 }
