@@ -17,6 +17,8 @@ export class Product {
   @Column()
   name: string;
   //Add categories for easier search.
+  @Column()
+  Price: number;
 
   @ManyToOne((type) => User, (user) => user.products, {
     nullable: true, //change this to false in prod
@@ -25,6 +27,7 @@ export class Product {
   @ManyToMany(() => Category)
   @JoinTable()
   categories: Category[];
+
   @Column({ default: true })
   availability: boolean;
 }

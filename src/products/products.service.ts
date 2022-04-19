@@ -50,6 +50,7 @@ export class ProductsService {
         `Vous n'etes pas autorisé à modifier ce produit.`,
       );
   }
+
   async bookProduct(id: number): Promise<boolean> {
     //This method will be called by bookingService to book a product.
     const product = await this.productRepository.findOne(id);

@@ -24,6 +24,9 @@ export class User {
   @Column({ length: 50 })
   lastname: string;
 
+  @Column({ length: 30 })
+  Location: string;
+
   @Column()
   password: string;
 
