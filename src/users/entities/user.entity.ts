@@ -7,6 +7,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export enum UserRoleEnum {
+  admin = 'ROLE:ADMIN',
+  user = 'ROLE:USER',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -29,6 +34,12 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column()
+  salt: string;
+
+  @Column()
+  role: UserRoleEnum;
 
   @OneToMany((type) => Product, (product) => product.owner, { nullable: true })
   products: Product[];
