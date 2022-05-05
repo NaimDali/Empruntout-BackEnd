@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { ProductsController } from 'src/products/products.controller';
@@ -13,10 +13,8 @@ export class CategoriesService {
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
   ) {}
-  async create(createCategoryDto: CreateCategoryDto) {
-    const category = this.categoryRepository.create(createCategoryDto);
-    return await this.categoryRepository.save(category);
-  }
+
+  //Relation de produit à catégorie.
   async addProduct(id: number, product: Product): Promise<UpdateResult> {
     const category = await this.categoryRepository.findOne(id);
     category.products.push(product);
@@ -31,6 +29,8 @@ export class CategoriesService {
     category.numberOfProducts--;
     return await this.categoryRepository.update(id, category);
   }
+
+  //Recherche de categories.
   findAll() {
     return this.categoryRepository.find();
   }
@@ -38,12 +38,26 @@ export class CategoriesService {
   findOne(id: number) {
     return this.categoryRepository.findOne(id);
   }
+  findMany(ids: number[]) {
+    return this.categoryRepository.findByIds(ids);
+  }
 
+  //Recherche de produits dans categories.
+  async findProductsByCategoryId(id: number): Promise<Product[]> {
+    const category = await this.categoryRepository.findOne(id);
+    if (!category)
+      throw new NotFoundException("Une catégorie avec cet id n'existe pas.");
+    else return category.products;
+  }
+  //CRUD Catégorie.
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     return await this.categoryRepository.update(id, updateCategoryDto);
   }
-
   async remove(id: number) {
     return await this.categoryRepository.delete(id);
+  }
+  async create(createCategoryDto: CreateCategoryDto) {
+    const category = this.categoryRepository.create(createCategoryDto);
+    return await this.categoryRepository.save(category);
   }
 }
