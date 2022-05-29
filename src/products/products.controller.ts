@@ -18,8 +18,11 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  create(
+    @Body() createProductDto: CreateProductDto,
+    @UserDecorator() user: User,
+  ) {
+    return this.productsService.create(createProductDto, user);
   }
   @Post('categories')
   getProductsByCatgegories(@Body() ids: number[]) {

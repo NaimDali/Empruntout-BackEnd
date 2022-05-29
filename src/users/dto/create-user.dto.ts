@@ -3,6 +3,6 @@ export class CreateUserDto {
   username: string;
   firstname: string;
   lastname: string;
-  Location: string;
+  location: string;
   password: string;
 }

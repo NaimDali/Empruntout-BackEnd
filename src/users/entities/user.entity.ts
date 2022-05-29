@@ -30,7 +30,7 @@ export class User {
   lastname: string;
 
   @Column({ length: 30 })
-  Location: string;
+  location: string;
 
   @Column()
   password: string;

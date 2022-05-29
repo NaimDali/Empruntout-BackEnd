@@ -18,9 +18,13 @@ export class ProductsService {
     private productRepository: Repository<Product>,
     private categoryService: CategoriesService,
   ) {}
-  async create(createProductDto: CreateProductDto): Promise<Product> {
+  async create(
+    createProductDto: CreateProductDto,
+    user: User,
+  ): Promise<Product> {
     //Increment number of products corresponding to given category automatically using event handlers.
     const product = this.productRepository.create(createProductDto);
+    product.owner = user;
     return await this.productRepository.save(product);
   }
   async findProductsByUser(user: User): Promise<Product[]> {

@@ -4,20 +4,20 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
-import { RegisterDto } from './dto/register.dto';
 import { UsersService } from '../users/users.service';
 import { CredenialsDto } from './dto/credenials.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponeDto } from './dto/login-respone.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
   ) {}
-  async register(registerDto: RegisterDto): Promise<User> {
+  async register(registerDto: CreateUserDto): Promise<User> {
     /*
      * Todo
      *  Get username + password + email
@@ -25,8 +25,11 @@ export class AuthService {
      *  crypt password
      *  save user
      * */
-    const { username, email } = registerDto;
-    let user = await this.userService.getUserByUserNameOrEmail(username, email);
+
+    let user = await this.userService.getUserByUserNameOrEmail(
+      registerDto.username,
+      registerDto.email,
+    );
     if (user) {
       throw new UnauthorizedException('Le user existe déjà');
     }

@@ -6,7 +6,6 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   name: string;
-  owner: User; //We need to get the user from the token in the frontend.
 
   availability: boolean = true;
   //categories: Category[];
