@@ -21,6 +21,10 @@ export class ProductsController {
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
+  @Post('categories')
+  getProductsByCatgegories(@Body() ids: number[]) {
+    return this.productsService.findProductsByCategories(ids);
+  }
 
   @Get()
   findAll() {
