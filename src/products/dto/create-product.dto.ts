@@ -9,5 +9,5 @@ export class CreateProductDto {
   Price: number;
   //owner: User; //We need to get the user from the token in the frontend.
   availability: boolean = true;
-  Categories: string;
+  Categories: Category;
 }

@@ -24,9 +24,9 @@ export class Product {
     nullable: true, //change this to false in prod
   })
   owner: User;
-  //@ManyToMany(() => Category)
-  //@JoinTable()
-  Categories: string;
+  @ManyToMany(() => Category)
+  @JoinTable()
+  Categories: Category;
 
   @Column({ default: true })
   availability: boolean;
