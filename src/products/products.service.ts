@@ -18,9 +18,13 @@ export class ProductsService {
     private productRepository: Repository<Product>,
     private categoryService: CategoriesService,
   ) {}
-  async create(createProductDto: CreateProductDto): Promise<Product> {
+  async create(
+    createProductDto: CreateProductDto,
+    user: User,
+  ): Promise<Product> {
     //Increment number of products corresponding to given category automatically using event handlers.
     const product = this.productRepository.create(createProductDto);
+    product.owner = user;
     return await this.productRepository.save(product);
   }
   async findProductsByUser(user: User): Promise<Product[]> {
@@ -35,6 +39,11 @@ export class ProductsService {
     if (!product)
       throw new NotFoundException(`Un produit avec l'id ${id} n'existe pas.`);
     else return product;
+  }
+  async findProductsByCategories(ids: number[]): Promise<Product[]> {
+    const categories = await this.categoryService.findMany(ids);
+    return await this.productRepository.find({ categories: categories });
+    //Handle empty array on front to show no available products.
   }
 
   async update(
