@@ -40,12 +40,10 @@ export class ProductsService {
       throw new NotFoundException(`Un produit avec l'id ${id} n'existe pas.`);
     else return product;
   }
-  async findProductsByCategories(ids: number[]) {
-    //Promise<Product[]> {
-    /* const categories = await this.categoryService.findMany(ids);
-    return await this.productRepository.find({ categories: categories });
+  async findProductsByCategories(ids: number[]): Promise<Product[]> {
+    const categories = await this.categoryService.findMany(ids);
+    return await this.productRepository.find({ Categories: categories });
     //Handle empty array on front to show no available products.
-    */
   }
 
   async update(

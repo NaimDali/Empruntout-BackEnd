@@ -7,7 +7,8 @@ export class CreateProductDto {
   @IsString()
   name: string;
   Price: number;
-  //owner: User; //We need to get the user from the token in the frontend.
+  //  owner: User; //We need to get the user from the token in the frontend.
   availability: boolean = true;
-  Categories: Category;
+  Categories: Category[];
+  sourceimg: string;
 }
