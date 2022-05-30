@@ -26,8 +26,10 @@ export class Product {
   owner: User;
   @ManyToMany(() => Category)
   @JoinTable()
-  categories: Category[];
+  Categories: Category[];
 
   @Column({ default: true })
   availability: boolean;
+  @Column()
+  sourceimg: string;
 }
