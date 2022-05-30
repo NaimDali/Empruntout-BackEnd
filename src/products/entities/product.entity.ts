@@ -18,10 +18,10 @@ export class Product {
   name: string;
   //Add categories for easier search.
   @Column()
-  Price: number;
+  price: number;
 
   @ManyToOne((type) => User, (user) => user.products, {
-    nullable: true, //change this to false in prod
+    nullable: false,
   })
   owner: User;
   @ManyToMany(() => Category)
