@@ -59,6 +59,10 @@ export class AuthService {
       throw new UnauthorizedException('Veuillez vérifier vos credentials');
     }
     const payload: JwtPayloadDto = {
+      id: user.id,
+      location: user.location,
+      firstname: user.firstname,
+      lastname: user.lastname,
       username: user.username,
       email: user.email,
       role: user.role,
