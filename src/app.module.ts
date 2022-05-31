@@ -6,8 +6,6 @@ import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
-import { CommentsService } from './comments/comments.service';
-import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -16,7 +14,6 @@ import { CommentsModule } from './comments/comments.module';
     TypeOrmModule.forRoot(),
     CategoriesModule,
     AuthModule,
-    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
