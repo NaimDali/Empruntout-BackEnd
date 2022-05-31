@@ -43,4 +43,7 @@ export class User {
 
   @OneToMany((type) => Product, (product) => product.owner, { nullable: true })
   products: Product[];
+
+  @Column({ default: null })
+  sourceimg: string;
 }
