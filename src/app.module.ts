@@ -4,11 +4,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
-import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
-  imports: [ProductsModule, UsersModule, TypeOrmModule.forRoot(), CategoriesModule, AuthModule],
+  imports: [
+    ProductsModule,
+    UsersModule,
+    TypeOrmModule.forRoot(),
+    AuthModule,
+    TransactionsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CategoriesService } from 'src/categories/categories.service';
 import { User } from 'src/users/entities/user.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -16,7 +15,6 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
-    private categoryService: CategoriesService,
   ) {}
   async create(
     createProductDto: CreateProductDto,
@@ -41,8 +39,7 @@ export class ProductsService {
     else return product;
   }
   async findProductsByCategories(ids: number[]): Promise<Product[]> {
-    const categories = await this.categoryService.findMany(ids);
-    return await this.productRepository.find({ Categories: categories });
+    return await this.productRepository.find();
     //Handle empty array on front to show no available products.
   }
 
