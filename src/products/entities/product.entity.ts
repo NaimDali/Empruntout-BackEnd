@@ -1,11 +1,11 @@
 import { type } from 'os';
-import { Category } from 'src/categories/entities/category.entity';
+import { Transaction } from 'src/transactions/entities/transaction.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
+  OneToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -24,10 +24,14 @@ export class Product {
     nullable: false,
   })
   owner: User;
-  @ManyToMany(() => Category)
-  @JoinTable()
-  categories: Category[];
+  @Column()
+  categories: string;
 
   @Column({ default: true })
   availability: boolean;
+  @Column()
+  sourceimg: string;
+
+  @OneToMany(() => Transaction, (trans) => trans.product, { nullable: true })
+  transactions: Transaction[];
 }

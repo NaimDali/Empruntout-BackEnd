@@ -1,11 +1,6 @@
 import { Product } from 'src/products/entities/product.entity';
-import {
-  Column,
-  Entity,
-  Long,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Transaction } from 'src/transactions/entities/transaction.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum UserRoleEnum {
   admin = 'ROLE:ADMIN',
@@ -44,6 +39,14 @@ export class User {
   @OneToMany((type) => Product, (product) => product.owner, { nullable: true })
   products: Product[];
 
+
   @Column({ default: null })
   sourceimg: string;
+
+  @OneToMany(() => Transaction, (trans) => trans.owner, { nullable: true })
+  itemsowned: Product[];
+
+  @OneToMany(() => Transaction, (trans) => trans.user, { nullable: true })
+  itemsborowed: Product[];
+
 }

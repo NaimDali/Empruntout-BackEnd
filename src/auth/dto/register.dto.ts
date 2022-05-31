@@ -5,4 +5,5 @@ export interface RegisterDto {
   firstname: string;
   lastname: string;
   location: string;
+
 }
