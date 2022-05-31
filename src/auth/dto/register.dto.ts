@@ -4,5 +4,6 @@ export interface RegisterDto {
   password: string;
   firstname: string;
   lastname: string;
-  Location: string;
+  location: string;
+
 }

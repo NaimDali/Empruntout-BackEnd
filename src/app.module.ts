@@ -12,8 +12,10 @@ import { TransactionsModule } from './transactions/transactions.module';
     ProductsModule,
     UsersModule,
     TypeOrmModule.forRoot(),
+
     AuthModule,
     TransactionsModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

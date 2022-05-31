@@ -5,7 +5,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserRoleEnum } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+
+import { UpdateAvatarUserDto } from './dto/update-avatar.dto';
+
 import { RegisterDto } from 'src/auth/dto/register.dto';
+
 
 @Injectable()
 export class UsersService {
@@ -35,16 +39,22 @@ export class UsersService {
   async update(id: number, updateUserDto: UpdateUserDto) {
     return await this.usersRepository.update(id, updateUserDto);
   }
+  async updateAvatar(user: User, file: Express.Multer.File) {
+    return await this.usersRepository
+      .createQueryBuilder('users')
+      .update()
+      .set({ sourceimg: file.filename })
+      .where('id = :id', { id: user.id })
+      .execute();
+  }
 
   async getUserByUserNameOrEmail(
     username: string,
     email: string,
   ): Promise<User> {
-    console.log('in getUserBy....');
     const user = await this.usersRepository.findOne({
       where: [{ username }, { email }],
     });
-    console.log(user);
     return user;
   }
 }
