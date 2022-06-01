@@ -19,13 +19,10 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => User, (user) => user.id)
+  @ManyToOne((type) => User, (user) => user.id, { cascade: true })
   user: User;
 
-  @ManyToOne((type) => User, (user) => user.id)
-  owner: User;
-
-  @ManyToOne((type) => Product, (prod) => prod.id)
+  @ManyToOne((type) => Product, (prod) => prod.id, { cascade: true })
   product: Product;
 
   @CreateDateColumn({
@@ -33,9 +30,9 @@ export class Transaction {
   })
   date_creation: Date;
 
-  @Column()
+  @Column({ default: null })
   date_fini: Date;
 
-  @Column()
+  @Column({ default: TransactionEnum.Encours })
   status: TransactionEnum;
 }

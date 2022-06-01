@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
@@ -20,20 +21,24 @@ import { Product } from 'src/products/entities/product.entity';
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.create(createTransactionDto);
+  create(
+    @Body() createTransactionDto: CreateTransactionDto,
+    @Request() request: any,
+  ) {
+    return this.transactionsService.create(createTransactionDto, request);
   }
 
   @Get()
   findAll() {
     return this.transactionsService.findAll();
   }
-  @Get('owned')
+  /*@Get('owned')
   findTransactionsOwnedByUser(@UserDecorator() user: User) {
     return this.transactionsService.findTransactionsOwnedByUser(user);
-  }
-  @Get('borow')
+  }*/
+  @Get('borrow')
   findTransactionsBorowedByUser(@UserDecorator() user: User) {
     return this.transactionsService.findTransactionsBorowedByUser(user);
   }
@@ -43,7 +48,7 @@ export class TransactionsController {
     return this.transactionsService.findOne(+id);
   }
 
-  @Patch(':id')
+  /*@Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateTransactionDto: UpdateTransactionDto,
@@ -55,5 +60,5 @@ export class TransactionsController {
   @Delete(':id')
   remove(@Param('id') id: number, @UserDecorator() user: User) {
     return this.transactionsService.remove(+id, user);
-  }
+  }*/
 }

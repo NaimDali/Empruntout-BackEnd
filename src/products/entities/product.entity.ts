@@ -24,12 +24,12 @@ export class Product {
     nullable: false,
   })
   owner: User;
-  @Column()
+  @Column({ default: '' })
   categories: string;
 
   @Column({ default: true })
   availability: boolean;
-  @Column()
+  @Column({ default: '' })
   sourceimg: string;
 
   @OneToMany(() => Transaction, (trans) => trans.product, { nullable: true })

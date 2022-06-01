@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -10,30 +11,31 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
-import { UserDecorator } from 'src/decorators/user.decorator';
-import { Console } from 'console';
+import { UsersService } from 'src/users/users.service';
+import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class TransactionsService {
+  @Inject(ProductsService)
+  private readonly productService: ProductsService;
   constructor(
     @InjectRepository(Transaction)
     private transactionRepository: Repository<Transaction>,
   ) {}
+
   async create(
     createtransactiontDto: CreateTransactionDto,
+    request: any,
   ): Promise<Transaction> {
-    const transaction = this.transactionRepository.create(
-      createtransactiontDto,
-    );
-    //transaction.owner = transaction.product.owner;
-    //transaction.user = user;
+    var transaction = this.transactionRepository.create(createtransactiontDto);
+    transaction.user = request.user;
     transaction.status = TransactionEnum.Encours;
-    return this.transactionRepository.save(transaction);
+    return await this.transactionRepository.save(transaction);
   }
 
-  async findTransactionsOwnedByUser(user: User): Promise<Transaction[]> {
+  /*async findTransactionsOwnedByUser(user: User): Promise<Transaction[]> {
     return await this.transactionRepository.find({ owner: user });
-  }
+  }*/
   async findTransactionsBorowedByUser(user: User): Promise<Transaction[]> {
     return await this.transactionRepository.find({ user: user });
   }
@@ -50,7 +52,7 @@ export class TransactionsService {
     else return trans;
   }
 
-  async update(
+  /*async update(
     id: number,
     updatetransactiontDto: UpdateTransactionDto,
     user: User,
@@ -71,5 +73,5 @@ export class TransactionsService {
       throw new UnauthorizedException(
         `Vous n'etes pas autorisé à supprimer ce produit.`,
       );
-  }
+  }*/
 }

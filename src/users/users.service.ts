@@ -10,7 +10,6 @@ import { UpdateAvatarUserDto } from './dto/update-avatar.dto';
 
 import { RegisterDto } from 'src/auth/dto/register.dto';
 
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -29,7 +28,7 @@ export class UsersService {
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
   }
-  async create(registerdto: RegisterDto): Promise<User> {
+  async create(registerdto: CreateUserDto): Promise<User> {
     const user = this.usersRepository.create(registerdto);
     user.salt = await bcrypt.genSalt();
     user.password = await bcrypt.hash(user.password, user.salt);

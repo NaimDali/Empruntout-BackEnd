@@ -6,9 +6,5 @@ import { TransactionEnum } from '../entities/transaction.entity';
 
 export class CreateTransactionDto {
   @IsNotEmpty()
-  @IsString()
   product: Product;
-
-  date_creation: Date;
-  status: TransactionEnum;
 }
