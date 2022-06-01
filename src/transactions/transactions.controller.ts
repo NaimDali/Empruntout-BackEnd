@@ -42,7 +42,10 @@ export class TransactionsController {
   findTransactionsBorowedByUser(@UserDecorator() user: User) {
     return this.transactionsService.findTransactionsBorowedByUser(user);
   }
-
+  @Get('users/:id')
+  findByUser(@Param('id') userId: number) {
+    return this.transactionsService.findByUser(userId);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.transactionsService.findOne(+id);

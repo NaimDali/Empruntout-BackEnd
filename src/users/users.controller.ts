@@ -69,4 +69,9 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+  @UseGuards(AuthGuard('jwt'))
+  @Get('products/:id')
+  getProductsByUserId(@Param('id') id: number) {
+    return this.usersService.getProductsByUserId(id);
+  }
 }

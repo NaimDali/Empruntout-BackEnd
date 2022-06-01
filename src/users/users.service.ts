@@ -9,12 +9,15 @@ import * as bcrypt from 'bcrypt';
 import { UpdateAvatarUserDto } from './dto/update-avatar.dto';
 
 import { RegisterDto } from 'src/auth/dto/register.dto';
+import { Product } from 'src/products/entities/product.entity';
+import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private readonly productsService: ProductsService,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -55,5 +58,9 @@ export class UsersService {
       where: [{ username }, { email }],
     });
     return user;
+  }
+  async getProductsByUserId(id: number): Promise<Product[]> {
+    const owner = await this.usersRepository.findOne(id);
+    return this.productsService.findAllByOwner(owner);
   }
 }

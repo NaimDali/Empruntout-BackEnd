@@ -31,6 +31,9 @@ export class ProductsService {
   findAll() {
     return this.productRepository.find();
   }
+  findAllByOwner(owner: User) {
+    return this.productRepository.find({ owner });
+  }
 
   findOne(id: number) {
     const product = this.productRepository.findOne(id);

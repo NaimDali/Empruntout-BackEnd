@@ -16,6 +16,8 @@ import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class TransactionsService {
+  @Inject(UsersService)
+  private readonly userService: UsersService;
   @Inject(ProductsService)
   private readonly productService: ProductsService;
   constructor(
@@ -50,6 +52,14 @@ export class TransactionsService {
         `la transaction avec l'id ${id} n'existe pas.`,
       );
     else return trans;
+  }
+  async findByUser(id: number) {
+    const user = await this.userService.findOne(id);
+    return this.transactionRepository.find({ user: user });
+  }
+  async findProductsByUser(id: number) {
+    const user = await this.userService.findOne(id);
+    return await this.transactionRepository.find({ user: user });
   }
 
   /*async update(
