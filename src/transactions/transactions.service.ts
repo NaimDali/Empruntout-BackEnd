@@ -54,8 +54,32 @@ export class TransactionsService {
     else return trans;
   }
   async findByUser(id: number) {
-    const user = await this.userService.findOne(id);
-    return this.transactionRepository.find({ user: user });
+    const transactions = await this.transactionRepository
+      .createQueryBuilder('transaction')
+      .leftJoinAndSelect('transaction.product', 'product')
+      .select([
+        'transaction',
+        'product.name',
+        'product.sourceimg',
+        'product.availability',
+        'product.price',
+      ])
+      .where('transaction.productId = :productId', { productId: id })
+      .andWhere('transaction.productId = product.id')
+      .execute();
+    /*const transactions = await this.transactionRepository
+      .createQueryBuilder('transaction')
+      .select()
+      .where('transaction.userId = :userId', { userId: id })
+      .execute();
+    transactions.forEach(async (element) => {
+      return (element['transaction_product'] =
+        await this.productService.findOneQueryBuilder(
+          element['transaction_productId'],
+        ));
+    });*/
+    console.log(transactions);
+    return transactions;
   }
   async findProductsByUser(id: number) {
     const user = await this.userService.findOne(id);
@@ -75,13 +99,13 @@ export class TransactionsService {
         `Vous n'etes pas autorisé à modifier ce produit.`,
       );
   }
-
+*/
   async remove(id: number, user: User): Promise<DeleteResult> {
     const trans = await this.transactionRepository.findOne(id);
-    if (trans.owner == user) return await this.transactionRepository.delete(id);
+    if (trans.user == user) return await this.transactionRepository.delete(id);
     else
       throw new UnauthorizedException(
         `Vous n'etes pas autorisé à supprimer ce produit.`,
       );
-  }*/
+  }
 }

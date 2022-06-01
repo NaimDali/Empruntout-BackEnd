@@ -34,7 +34,12 @@ export class ProductsService {
   findAllByOwner(owner: User) {
     return this.productRepository.find({ owner });
   }
-
+  async findOneQueryBuilder(id: number) {
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .select()
+      .where('product.id = :id', { id: id }).execute;
+  }
   findOne(id: number) {
     const product = this.productRepository.findOne(id);
     if (!product)
