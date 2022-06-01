@@ -38,7 +38,12 @@ export class ProductsService {
       .where('product.ownerId = :id', { id: owner.id })
       .execute();
   }
-
+  async findOneQueryBuilder(id: number) {
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .select()
+      .where('product.id = :id', { id: id }).execute;
+  }
   findOne(id: number) {
     const product = this.productRepository.findOne(id);
     if (!product)
