@@ -16,7 +16,7 @@ export class Product {
   id: number;
   @Column()
   name: string;
-  //Add categories for easier search.
+
   @Column()
   price: number;
 
