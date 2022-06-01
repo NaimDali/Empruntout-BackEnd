@@ -74,14 +74,14 @@ export class TransactionsService {
       throw new UnauthorizedException(
         `Vous n'etes pas autorisé à modifier ce produit.`,
       );
-  }
+  }*/
 
   async remove(id: number, user: User): Promise<DeleteResult> {
     const trans = await this.transactionRepository.findOne(id);
-    if (trans.owner == user) return await this.transactionRepository.delete(id);
+    if (trans.user == user) return await this.transactionRepository.delete(id);
     else
       throw new UnauthorizedException(
         `Vous n'etes pas autorisé à supprimer ce produit.`,
       );
-  }*/
+  }
 }

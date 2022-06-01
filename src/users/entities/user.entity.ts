@@ -42,6 +42,9 @@ export class User {
   @Column({ default: null })
   sourceimg: string;
 
+  @Column({ default: 'hello' })
+  bio: string;
+
   @OneToMany(() => Transaction, (trans) => trans.user, { nullable: true })
   itemsborowed: Product[];
 }
