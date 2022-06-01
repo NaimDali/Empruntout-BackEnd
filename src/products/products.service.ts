@@ -32,7 +32,11 @@ export class ProductsService {
     return this.productRepository.find();
   }
   findAllByOwner(owner: User) {
-    return this.productRepository.find({ owner });
+    return this.productRepository
+      .createQueryBuilder('product')
+      .select()
+      .where('product.ownerId = :id', { id: owner.id })
+      .execute();
   }
   async findOneQueryBuilder(id: number) {
     return await this.productRepository

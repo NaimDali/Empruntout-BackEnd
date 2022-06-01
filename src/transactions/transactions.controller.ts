@@ -59,7 +59,8 @@ export class TransactionsController {
   ) {
     return this.transactionsService.update(+id, updateTransactionDto, user);
   }
-*/
+
+ */
   @Delete(':id')
   remove(@Param('id') id: number, @UserDecorator() user: User) {
     return this.transactionsService.remove(+id, user);

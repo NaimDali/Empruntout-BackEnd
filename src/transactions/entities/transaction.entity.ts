@@ -30,9 +30,6 @@ export class Transaction {
   })
   date_creation: Date;
 
-  @Column({ default: null })
-  date_fini: Date;
-
   @Column({ default: TransactionEnum.Encours })
   status: TransactionEnum;
 }
